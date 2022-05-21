@@ -6,6 +6,8 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
+import Admin from "./components/admin.component";
+import Logout from "./components/logout.component";
 class App extends Component {
     constructor(props) {
         super(props);
@@ -33,7 +35,7 @@ class App extends Component {
         const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
         return (
             <div>
-                <nav className="navbar navbar-expand navbar-dark bg-dark">
+                <nav className="navbar navbar-expand navbar-dark bg-primary">
                     <Link to={"/"} className="navbar-brand">
                         Catalog Online
                     </Link>
@@ -57,13 +59,6 @@ class App extends Component {
                                 </Link>
                             </li>
                         )}
-                        {currentUser && (
-                            <li className="nav-item">
-                                <Link to={"/user"} className="nav-link">
-                                    User
-                                </Link>
-                            </li>
-                        )}
                     </div>
                     {currentUser ? (
                         <div className="navbar-nav ml-auto">
@@ -73,8 +68,8 @@ class App extends Component {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <a href="/login" className="nav-link" onClick={this.logOut}>
-                                    LogOut
+                                <a href="/logout" className="nav-link" onClick={this.logOut}>
+                                    Log out
                                 </a>
                             </li>
                         </div>
@@ -85,11 +80,6 @@ class App extends Component {
                                     Login
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link to={"/register"} className="nav-link">
-                                    Sign Up
-                                </Link>
-                            </li>
                         </div>
                     )}
                 </nav>
@@ -97,8 +87,11 @@ class App extends Component {
                     <Routes>
                         {/*<Route path={["/", "/home"]} component={<Home/>} />*/}
                         <Route exact path="/" element={<Home/>} />
+                        <Route exact path="/home" element={<Home/>} />
                         <Route exact path="/login" element={<Login/>} />
+                        <Route exact path="/logout" element={<Logout/>} />
                         <Route exact path="/profile" element={<Profile/>} />
+                        <Route exact path="/admin" element={<Admin/>} />
                     </Routes>
                 </div>
             </div>
