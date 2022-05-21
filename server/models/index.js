@@ -6,6 +6,7 @@ db.users = require('./users.model');
 db.clasa = require('./clasa.model');
 db.catalog = require('./catalog.model');
 db.materii = require('./materii.model');
+db.scoala = require('./scoala.model');
 
 let elev = 1 // asa sunt definite in baza de date rolurile
 let profesor = 2

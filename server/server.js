@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const port = process.env.PORT || 5000;
 
+global.__basedir = __dirname;
 
 require("dotenv").config({path: "./config.env"});
 
@@ -32,3 +33,4 @@ app.listen(port, () => {
 //routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
+require('./routes/db.routes')(app)
