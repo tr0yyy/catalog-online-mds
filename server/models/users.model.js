@@ -10,13 +10,13 @@ const Users = mongoose.model(
         isAdmin: Number,
         clase: [
             {
-                idClasa: mongoose.schema.Types.ObjectId
+                idClasa: ObjectId
             }
         ],
-        scoala: mongoose.Schema.Types.ObjectId,
+        scoala: ObjectId,
         materii: [
             {
-                idMaterie: mongoose.Schema.Types.ObjectId
+                idMaterie: ObjectId
             }
         ]
     })
