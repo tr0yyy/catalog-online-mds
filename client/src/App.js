@@ -9,6 +9,7 @@ import Profile from "./components/profile.component";
 import Admin from "./components/admin.component";
 import Logout from "./components/logout.component";
 import Elev from "./components/elev.component";
+import Profesor from "./components/profesor.component";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -56,11 +57,11 @@ class App extends Component {
             {showModeratorBoard && !showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/profesor"} className="nav-link">
-                  Panou Admin
+                  Panou profesor
                 </Link>
               </li>
             )}
-            {!showAdminBoard && !showModeratorBoard && (
+            {currentUser && !showAdminBoard && !showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/elev"} className="nav-link">
                   Panou elev
@@ -101,6 +102,7 @@ class App extends Component {
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/admin" element={<Admin />} />
             <Route exact path="/elev" element={<Elev />} />
+            <Route exact path="/profesor" element={<Profesor />} />
           </Routes>
         </div>
       </div>
