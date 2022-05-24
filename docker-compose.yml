@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  backend:
+    env_file:
+        "./server/config.env"
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    image: "proiect-mds/catalog-online-backend"
+    ports:
+      - "5000:5000"
+  frontend:
+    env_file:
+        "./client/.env"
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    image: "proiect-mds/catalog-online-frontend"
+    ports:
+      - "80:8081"
