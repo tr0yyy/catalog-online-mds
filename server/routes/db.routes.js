@@ -20,4 +20,6 @@ module.exports = function (app) {
   app.get("/api/db/get-catalog", dbController.getCatalogByEmail);
   app.get("/api/db/get-all-students-from-professor", dbController.getAllStudentsFromProfessor);
   app.get("/api/db/get-students-from-class", dbController.getStudentsFromClass);
+  app.post("/api/db/setgrade", dbController.setGrade);
+  app.get("/api/db/get-materie", dbController.getMaterie)
 };

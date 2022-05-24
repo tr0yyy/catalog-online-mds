@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:5000/api/db/';
 class DbService {
     getCatalog(email) {
     return axios
-      .get(API_URL + "get-catalog", { headers: authHeader(), params: {"email" : email }})
+      .get(API_URL + "get-all-students-from-professor", { params: {"email" : email }})
       .then((response) => {
         return response.data;
       });
@@ -19,6 +19,28 @@ class DbService {
     getAllSchools() {
         return axios
             .get(API_URL + "get-all-schools")
+            .then(response => {
+                return response.data
+            })
+    }
+    sendGrade(nume, prenume, numeMaterie, data, nota) {
+        return axios
+            .post(API_URL+ "setgrade", {headers: authHeader(), nume, prenume, numeMaterie, data, nota})
+            .then(response => {
+                return response.data
+            })
+    }
+    getStudentsFromClass(clasa, numeMaterie) {
+        return axios
+            .get(API_URL + "get-students-from-class", {headers: authHeader(),params:{"numeClasa": clasa, "numeMaterie": numeMaterie}})
+            .then(response => {
+                return response.data
+            })
+    }
+
+    getMaterie(email) {
+        return axios
+            .get(API_URL + "get-materie", {headers: authHeader(),params: {"email": email}})
             .then(response => {
                 return response.data
             })

@@ -10,15 +10,11 @@ const Users = mongoose.model(
         isAdmin: Number,
         clase: [
             {
-                idClasa: ObjectId
+                numeClasa: String
             }
         ],
         scoala: ObjectId,
-        materii: [
-            {
-                idMaterie: ObjectId
-            }
-        ]
+        materie: String
     })
 );
 module.exports = Users;
