@@ -20,7 +20,7 @@ class DbService {
   }
   getCatalog(email) {
     return axios
-      .get(API_URL + "get-catalog", { headers: authHeader(), email })
+      .get(API_URL + "get-catalog", { headers: authHeader(), params: {"email" : email }})
       .then((response) => {
         return response.data;
       });

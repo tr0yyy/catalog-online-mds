@@ -60,7 +60,7 @@ class App extends Component {
                 </Link>
               </li>
             )}
-            {!(showAdminBoard && showModeratorBoard) && (
+            {!showAdminBoard && !showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/elev"} className="nav-link">
                   Panou elev

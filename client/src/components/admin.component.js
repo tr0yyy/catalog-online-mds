@@ -81,6 +81,12 @@ export default class Admin extends Component {
 
 
     render() {
+
+        if(this.state.currentUser.isAdmin !== 3) {
+            window.location.href = '/';
+            return <></>
+        }
+
         console.log(this.state.schoolNames.length)
         if(this.state.schoolNames.length === 0) return <Loader />
         console.log(this.state.schoolNames.length)

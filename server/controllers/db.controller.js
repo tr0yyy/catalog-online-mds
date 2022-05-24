@@ -101,12 +101,24 @@ exports.getCatalogByEmail = async (req, res) => {
   const elevID = await User.findOne({ email: req.query.email }).select({
     _id: 1,
   });
-  const catalog = await Catalog.findOne({ idElev: elevID }).select({
+  let result = await Catalog.findOne({ idElev: elevID }).select({
     _id: 0,
     catalog: 1,
   });
-  if (!catalog) {
+  // console.log(result);
+  if (!result) {
     res.status(500).send({ message: "Catalogul nu a fost gasit!" });
   }
-  res.status(201).send(catalog);
+  var obj = []
+  var i = 0;
+  if(result.catalog === [])
+    res.status(500).send({message: "no data found"})
+  for (let element of result.catalog) {
+    obj.push(element.toJSON());
+    var nume = await Materii.findOne({_id : obj[i]["idMaterie"]}, {_id: 0, nume: 1});
+    obj[i]["nume"] = nume.nume;
+    i = i + 1;
+  }
+
+  res.status(201).send(obj);
 };
