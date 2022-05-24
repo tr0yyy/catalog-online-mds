@@ -6,6 +6,7 @@ const fsExtra = require('fs-extra')
 const Clasa = require('../models/clasa.model')
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const Catalog = require("../models/catalog.model");
 exports.uploadToDb = (req, res) => {
     console.log(req.body.collection)
     CSVToJSON().fromFile(__basedir + '/csv/' + req.body.filename)
@@ -67,7 +68,7 @@ exports.uploadToDb = (req, res) => {
         }).catch(err => {
         console.log(err);
     });
-}
+};
 
 function checkSchool (v) {
     //Header CSV - nume_scoala, oras_scoala, adresa_scoala, telefon
@@ -94,8 +95,32 @@ function checkElev (v) {
 }
 
 exports.getAllSchools = async (req, res) => {
-    const all = await Scoala.find({}).select({"nume": 1, "_id": 0});
-    res.send(all);
+  const all = await Scoala.find({}).select({ nume: 1, _id: 0 });
+  res.send(all);
+};
 
-}
+exports.getCatalogByEmail = async (req, res) => {
+  const elevID = await User.findOne({ email: req.query.email }).select({
+    _id: 1,
+  });
+  let result = await Catalog.findOne({ idElev: elevID }).select({
+    _id: 0,
+    catalog: 1,
+  });
+  // console.log(result);
+  if (!result) {
+    res.status(500).send({ message: "Catalogul nu a fost gasit!" });
+  }
+  var obj = []
+  var i = 0;
+  if(result.catalog === [])
+    res.status(500).send({message: "no data found"})
+  for (let element of result.catalog) {
+    obj.push(element.toJSON());
+    var nume = await Materii.findOne({_id : obj[i]["idMaterie"]}, {_id: 0, nume: 1});
+    obj[i]["nume"] = nume.nume;
+    i = i + 1;
+  }
 
+  res.status(201).send(obj);
+};
