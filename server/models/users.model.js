@@ -8,9 +8,15 @@ const Users = mongoose.model(
         email: String,
         password: String,
         isAdmin: Number,
+        clase: [
+            {
+                idClasa: mongoose.schema.Types.ObjectId
+            }
+        ],
+        scoala: mongoose.Schema.Types.ObjectId,
         materii: [
             {
-                idMaterie: ObjectId
+                idMaterie: mongoose.Schema.Types.ObjectId
             }
         ]
     })
