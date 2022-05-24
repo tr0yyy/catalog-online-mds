@@ -75,7 +75,10 @@ export default class Admin extends Component {
         CsvService.uploadFile(formData)
             .then(response => {
                 console.log(response.filename)
-
+                DbService.loadData(response.filename, 'materii', '')
+                    .then(response => {
+                        console.log(response);
+                    })
             })
     }
 

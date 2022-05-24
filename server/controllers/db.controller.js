@@ -62,14 +62,43 @@ exports.uploadToDb = (req, res) => {
 
                     })
                 }
-            }
-            fsExtra.emptyDirSync(__basedir + '/csv/')
-            res.status(201).send({message: 'success'})
-        }).catch(err => {
-        console.log(err);
-    });
-};
-
+            }else if(req.body.collection === "materii"){
+                let check = checkMaterii(users[0]);
+                console.log(check);
+                if(check === true){
+                  users.forEach((element) => {
+                    console
+                    const materie = new Materii( {
+                      nume: element.nume
+                    });
+                    console.log(materie);
+                  materie.save((err) => {
+                    if(err)
+                    res.status(500).send({message:err});
+                    return;
+                  });
+                  });
+                }
+              }
+              fsExtra.emptyDirSync(__basedir + "/csv/");
+              res.status(201).send({ message: "success" });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        };
+        
+        function checkMaterii (v) {
+          //Header CSV - nume
+          let checkers = ['nume'];
+          let array = Object.keys(v);
+          array.forEach(element => {
+              if(!checkers.includes(element)) {
+                  return false
+              }
+          });
+          return true;
+        }
 function checkSchool (v) {
     //Header CSV - nume_scoala, oras_scoala, adresa_scoala, telefon
     let checkers = ['nume_scoala', 'oras_scoala', 'adresa_scoala', 'telefon'];
@@ -264,4 +293,3 @@ exports.getMaterie = async (req,res) => {
     console.log(elev)
     res.status(201).send(elev);
 }
-
