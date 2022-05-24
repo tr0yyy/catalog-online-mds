@@ -6,7 +6,7 @@ const Clasa = mongoose.model(
         nume: String,
         elevi: [
             {
-                _idElev: mongoose.Schema.Types.ObjectId
+                _idElev: ObjectId
             }
         ]
     }, {collection: "clasa"})
