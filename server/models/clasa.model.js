@@ -4,6 +4,7 @@ const Clasa = mongoose.model(
     "clasa",
     new mongoose.Schema({
         nume: String,
+        scoala: String,
         elevi: [
             {
                 _idElev: ObjectId

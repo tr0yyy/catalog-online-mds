@@ -9,10 +9,10 @@ const mongoose = require("mongoose");
 exports.uploadToDb = (req, res) => {
     console.log(req.body.collection)
     CSVToJSON().fromFile(__basedir + '/csv/' + req.body.filename)
-        .then(users => {
-            if(req.body.collection === 'school') {
+        .then(async users => {
+            if (req.body.collection === 'school') {
                 let check = checkSchool(users[0])
-                if(check === true) {
+                if (check === true) {
                     users.forEach(element => {
                         console.log(element)
                         const scoala = new Scoala({
@@ -23,7 +23,7 @@ exports.uploadToDb = (req, res) => {
                         });
                         scoala.save(err => {
                             if (err) {
-                                res.status(500).send({ message: err });
+                                res.status(500).send({message: err});
                                 return;
                             }
                             console.log("added")
@@ -31,33 +31,39 @@ exports.uploadToDb = (req, res) => {
 
                     })
                 }
-            } else if(req.body.collection === 'users') {
+            } else if (req.body.collection === 'users') {
                 let check = checkElev(users[0])
-                if(check === true) {
+                if (check === true) {
                     console.log("a trecut")
+                    let school = await Scoala.findOne({"nume": req.body.school.nume}, {_id: 1})
                     users.forEach(element => {
                         const user = new User({
                             email: element.email,
                             nume: element.nume,
                             prenume: element.prenume,
                             password: bcrypt.hashSync(element.parola_default, 8),
-                            isAdmin: 1
+                            isAdmin: 1,
+                            scoala: school
                         });
                         user.save(async function (err, obj) {
                             if (err) {
+                                console.log(err)
                                 res.status(500).send({message: err});
                                 return;
                             }
                             console.log("added")
                             let objid = obj.id
-                            const doc =  await  Clasa.findOneAndUpdate({"nume": element.clasa}, {$push: {elevi: {"_idElev": objid}}}, {upsert: true, new: true})
-                            console.log(doc)
+                            const doc = await Clasa.findOneAndUpdate({"nume": element.clasa}, {$push: {elevi: {"_idElev": objid}}, $set: {'scoala': school}}, {
+                                upsert: true,
+                                new: true
+                            })
                         });
 
                     })
                 }
             }
             fsExtra.emptyDirSync(__basedir + '/csv/')
+            res.status(201).send({message: 'success'})
         }).catch(err => {
         console.log(err);
     });

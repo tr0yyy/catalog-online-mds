@@ -2,9 +2,9 @@ import axios from "axios";
 import authHeader from "./auth-header";
 const API_URL = 'http://localhost:5000/api/db/';
 class DbService {
-    loadData(filename, collection) {
+    loadData(filename, collection, school) {
         return axios
-            .post(API_URL + 'load-data', {headers: authHeader(), filename, collection})
+            .post(API_URL + 'load-data', {headers: authHeader(), filename, collection, school})
             .then(response => {
                 return response.data.message
             })
