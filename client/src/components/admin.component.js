@@ -3,13 +3,15 @@ import AuthService from "../services/auth.service";
 import CsvService from "../services/csv.service";
 import DbService from "../services/db.service"
 import Loader from "react-js-loader";
+import selectorEngine from "bootstrap/js/src/dom/selector-engine";
 export default class Admin extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentUser: AuthService.getCurrentUser(),
             file: undefined,
-            schoolNames: []
+            schoolNames: [],
+            selectedSchool: 0
         };
     }
 
@@ -30,6 +32,13 @@ export default class Admin extends Component {
         this.state.file = event.target.files[0]
     }
 
+    onSchoolSelect = event => {
+        this.setState({
+            selectedSchool: event.target.value,
+        });
+
+    }
+
     onSchoolUpload =  async () => {
         const formData = new FormData();
         formData.append("file", this.state.file, this.state.file.name);
@@ -37,7 +46,7 @@ export default class Admin extends Component {
         CsvService.uploadFile(formData)
             .then(response => {
                 console.log(response.filename)
-                DbService.loadData(response.filename, 'school')
+                DbService.loadData(response.filename, 'school', '')
                     .then(response => {
                         console.log(response);
                     })
@@ -51,19 +60,11 @@ export default class Admin extends Component {
         CsvService.uploadFile(formData)
             .then(response => {
                 console.log(response.filename)
-                DbService.loadData(response.filename, 'users')
+                DbService.loadData(response.filename, 'users', this.state.schoolNames[this.state.selectedSchool])
                     .then(response => {
                         console.log(response);
+                        window.location.href = '/';
                     })
-            })
-    }
-
-    onTeachersUpload =  async () => {
-        const formData = new FormData();
-        formData.append("file", this.state.file, this.state.file.name);
-        console.log(this.state.file)
-        CsvService.uploadFile(formData)
-            .then(response => {
             })
     }
 
@@ -120,7 +121,7 @@ export default class Admin extends Component {
                     </div>
                     <hr/>
                     <div>
-                        <select>
+                        <select onChange={this.onSchoolSelect}>
                             {
                                 this.state.schoolNames.map((school) => (
                                     <option value={school.index}>{school.nume}</option>
@@ -137,11 +138,11 @@ export default class Admin extends Component {
                         </div>
                     </div>
                     <p>Uploadeaza un fisier CSV pentru a incarca profesorii scolii (Header CSV - nume, prenume, email,
-                        parola_default)</p>
+                        parola_default, clase_predate, materii_predate)</p>
                     <div>
                         <input type="file" name="file" onChange={this.onFileSelect}/>
                         <div>
-                            <button onClick={this.onTeachersUpload}>Submit</button>
+                            <button onClick={this.onStudentsUpload}>Submit</button>
                         </div>
                     </div>
                     <hr/>

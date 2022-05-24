@@ -4,9 +4,10 @@ const Clasa = mongoose.model(
     "clasa",
     new mongoose.Schema({
         nume: String,
+        scoala: String,
         elevi: [
             {
-                _idElev: mongoose.Schema.Types.ObjectId
+                _idElev: ObjectId
             }
         ]
     }, {collection: "clasa"})

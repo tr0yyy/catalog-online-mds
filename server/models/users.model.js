@@ -8,6 +8,12 @@ const Users = mongoose.model(
         email: String,
         password: String,
         isAdmin: Number,
+        clase: [
+            {
+                idClasa: ObjectId
+            }
+        ],
+        scoala: ObjectId,
         materii: [
             {
                 idMaterie: ObjectId
