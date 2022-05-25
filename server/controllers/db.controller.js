@@ -87,7 +87,7 @@ exports.uploadToDb = (req, res) => {
               console.log(err);
             });
         };
-        
+
         function checkMaterii (v) {
           //Header CSV - nume
           let checkers = ['nume'];
@@ -129,6 +129,7 @@ exports.getAllSchools = async (req, res) => {
 };
 
 exports.getCatalogByEmail = async (req, res) => {
+    console.log("wtf")
     const elevID = await User.findOne({ email: req.query.email }).select({
         _id: 1,
     });

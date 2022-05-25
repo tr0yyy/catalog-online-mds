@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:5000/api/db/';
 class DbService {
     getCatalog(email) {
     return axios
-      .get(API_URL + "get-all-students-from-professor", { params: {"email" : email }})
+      .get(API_URL + "get-catalog", { params: {"email" : email }})
       .then((response) => {
         return response.data;
       });
