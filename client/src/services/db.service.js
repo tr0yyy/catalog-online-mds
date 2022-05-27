@@ -45,6 +45,13 @@ class DbService {
                 return response.data
             })
     }
+    getClase(email) {
+        return axios
+            .get(API_URL + "get-all-students-from-professor", {headers: authHeader(), params: {"email" : email}})
+            .then(response => {
+            return response.data;
+        });
+    }
 
 }
 

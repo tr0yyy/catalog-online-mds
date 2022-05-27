@@ -22,7 +22,7 @@ export default class Profesor extends Component {
 
   async componentDidMount() {
     let classes = []
-    await DbService.getCatalog(this.state.currentUser.email)
+    await DbService.getClase(this.state.currentUser.email)
         .then(async response => {
           for (let item of response) {
             classes.push(item.numeClasa)
